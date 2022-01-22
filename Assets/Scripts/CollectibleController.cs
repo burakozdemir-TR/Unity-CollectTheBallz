@@ -5,16 +5,20 @@ using DG.Tweening;
 
 public class CollectibleController : MonoBehaviour
 {
-    private Sequence sequence;
+    Tween initialTween;
+    public Collectible collectible;
+    [HideInInspector]
+    public int point;
     void Start()
     {
+        point = collectible.point;
         StartCoroutine(PlayCollectibleAnimation());
     }
     private IEnumerator PlayCollectibleAnimation()
     {
         var playerTransform = gameObject.GetComponent<Transform>();    
-        Tween initialTween = playerTransform.DOMoveY(.5f, 1f);
-
+        
+        initialTween = playerTransform.DOMoveY(.5f, 1f);
         yield return initialTween.WaitForCompletion();
 
         DOTween
