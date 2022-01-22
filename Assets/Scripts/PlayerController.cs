@@ -25,10 +25,7 @@ public class PlayerController : MonoBehaviour
     {
         rb.velocity = new Vector3(joystick.Horizontal * 10f, 0, joystick.Vertical * 10f);
         if (rb.velocity != Vector3.zero)
-        {
-            Quaternion toRotation = Quaternion.LookRotation(rb.velocity, Vector3.up);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, 720 * Time.deltaTime);
-        }
+            gameObject.transform.rotation = Quaternion.LookRotation(rb.velocity, Vector3.up);
     }
     private void OnTriggerEnter(Collider other)
     {

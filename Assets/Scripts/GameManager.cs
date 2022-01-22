@@ -6,15 +6,25 @@ using DG.Tweening;
 using UnityEngine.Events;
 public class GameManager : MonoBehaviourSingleton<GameManager>
 {
+    [HideInInspector]
+    public int currentPoint;
     public GameObject mainMenu;
     public GameObject endMenu;
     public Text scoreText;
-    [HideInInspector]
-    public int currentPoint;
+    public int initialCollectibleCount;
     public UnityAction restartGame;
+    private GameObject collectible;
+    public Vector2 spawnableWidth;
+    public Vector2 spawnableHeight;
+    
     private void Awake()
     {
         Screen.orientation = ScreenOrientation.Portrait;
+    }
+    private void Start()
+    {
+        collectible = Resources.Load<GameObject>("Prefabs/Collectible");
+        SpawnCollectibles();
     }
     public void StartButton()
     {
@@ -38,5 +48,14 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
             restartGame?.Invoke();
             endMenu.gameObject.SetActive(false);
         });
+    }
+    private void SpawnCollectibles()
+    {
+        for(int i = 0; i < initialCollectibleCount; i++)
+        {
+            var width = Random.Range(spawnableWidth.x, spawnableWidth.y);
+            var height = Random.Range(spawnableHeight.x, spawnableHeight.y);
+            Instantiate(collectible, new Vector3(width, 1, height), transform.rotation);
+        }
     }
 }
