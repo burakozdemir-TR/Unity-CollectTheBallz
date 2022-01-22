@@ -31,17 +31,17 @@ public class PlayerController : MonoBehaviour
     {
         if (!(other.tag == "Collectible"))
             return;
-        GameManager.Instance.currentPoint += other.gameObject.GetComponent<CollectibleController>().point;
-        GameManager.Instance.scoreText.text = ($"Score : { GameManager.Instance.currentPoint}");
-        if (GameManager.Instance.currentPoint == 100)
-            GameManager.Instance.EndGame();
+        GameManager.Instance.Collect(other);
     }
     private void RestartPlayerPosition()
     {
         gameObject.GetComponent<Transform>().DOMove(startPosition, 1.5f).SetEase(Ease.InBack).OnComplete(()=> 
         {
-            gameObject.GetComponent<Transform>().DORotate(startRotation, 1.5f).SetEase(Ease.OutBack);
+            gameObject.GetComponent<Transform>().DORotate(startRotation, 1.5f).SetEase(Ease.OutBack).OnComplete(() =>
+            {
+                GameManager.Instance.currentPoint = 0;
+                GameManager.Instance.scoreText.text = "";
+            });
         });
     }
-    
 }
